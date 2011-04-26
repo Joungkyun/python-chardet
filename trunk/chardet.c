@@ -18,12 +18,9 @@ PyObject * py_init (PyObject * self, PyObject * args) { // {{{
 } // }}}
 
 PyObject * py_destroy (PyObject * self, PyObject * args) { // {{{
-	int *		_ptr;
 	Detect *	ptr;
-	if ( ! PyArg_ParseTuple (args, "i", &_ptr) )
+	if ( ! PyArg_ParseTuple (args, "i", (int *) &ptr) )
 		return NULL;
-
-	ptr = (Detect *) _ptr;
 
 	detect_destroy (&ptr);
 
@@ -32,7 +29,6 @@ PyObject * py_destroy (PyObject * self, PyObject * args) { // {{{
 
 PyObject * py_detect (PyObject * self, PyObject * args) { // {{{
 	PyObject *	err;
-	int *		_ptr;
 	char *		text;
 	int			argc;
 
@@ -43,7 +39,7 @@ PyObject * py_detect (PyObject * self, PyObject * args) { // {{{
 	static PyObject *	new;
 	static PyObject *	ret;
 
-	if ( ! PyArg_ParseTuple (args, "is|O", &_ptr, &text, &err) )
+	if ( ! PyArg_ParseTuple (args, "is|O", (int *) &ptr, &text, &err) )
 		return NULL;
 
 	argc = PyTuple_Size (args);
@@ -54,8 +50,6 @@ PyObject * py_detect (PyObject * self, PyObject * args) { // {{{
 			return NULL;
 		}
 	}
-
-	ptr = (Detect *) _ptr;
 
 	detect_reset (&ptr);
 	if ( (obj = detect_obj_init ()) == NULL ) {
