@@ -3,6 +3,9 @@ Revision history for Python extension KRISP
 $Id: Changes,v 1.1.1.1 2010-07-05 19:03:19 oops Exp $
 
 1.0.1
+	* Thu Apr 27 2011 JoungKyun.Kim <http://oops.org>
+	- fixed overflow 32bit address on 64bit system
+
 	* Tue Apr 26 2011 JoungKyun.Kim <http://oops.org>
 	- start 1.0.1 tree
 	- fixed chardet.detect segfault on 64bit system
