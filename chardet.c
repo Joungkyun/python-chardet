@@ -14,12 +14,12 @@ PyObject * py_init (PyObject * self, PyObject * args) { // {{{
 	if ( (ptr = detect_init ()) == NULL )
 		return Py_None;
 
-	return Py_BuildValue ("i", (int *) ptr);
+	return Py_BuildValue ("l", (long *) ptr);
 } // }}}
 
 PyObject * py_destroy (PyObject * self, PyObject * args) { // {{{
 	Detect *	ptr;
-	if ( ! PyArg_ParseTuple (args, "i", (int *) &ptr) )
+	if ( ! PyArg_ParseTuple (args, "l", (long *) &ptr) )
 		return NULL;
 
 	detect_destroy (&ptr);
@@ -39,7 +39,7 @@ PyObject * py_detect (PyObject * self, PyObject * args) { // {{{
 	static PyObject *	new;
 	static PyObject *	ret;
 
-	if ( ! PyArg_ParseTuple (args, "is|O", (int *) &ptr, &text, &err) )
+	if ( ! PyArg_ParseTuple (args, "ls|O", (long *) &ptr, &text, &err) )
 		return NULL;
 
 	argc = PyTuple_Size (args);
