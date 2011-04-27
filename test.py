@@ -10,15 +10,7 @@ import urllib
 try:
 	import chardet
 except ImportError:
-	osinfo = os.uname ()
-	sys.path.append (
-		os.getcwd () +
-		'/build/lib.' +
-		osinfo[0].lower() + '-'
-		+ osinfo[4] + '-' +
-		str (sys.version_info[0]) + '.'
-		+ str(sys.version_info[1])
-	)
+	sys.path.append (os.getcwd() + '/build/lib.linux-i686-2.5')
 	import chardet
 
 urlread = lambda url: urllib.urlopen (url).read ()
