@@ -4,7 +4,7 @@ $Id$
 
 DESCRIPTION
 
-This is python extension taht is lichardet python frontend.
+This is python extension that is lichardet python frontend.
 
 lichardet is based on Mozilla Universal Charset Detector library and, detects
 the character set used to encode data.

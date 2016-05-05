@@ -2,8 +2,9 @@
  * $Id$
  */
 
-#define MOD_VERSION "1.0.2"
-#define MOD_UVERSION "001000002"
+#define MOD_CHARDET_VERSION "1.0.2"
+#define MOD_CHARDET_UVERSION "001000002"
+#define MOD_CHARDET_LVERSION 0x0100002
 
 /*
  * Local variables:
