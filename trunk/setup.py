@@ -12,8 +12,8 @@ libdir = []
 libs   = [ 'chardet', 'stdc++' ]
 defs   = []
 
-krisp_env = (os.popen ('chardet-config --libs')).read ()
-envlist   = string.split (krisp_env)
+chardet_env = (os.popen ('chardet-config --libs')).read ()
+envlist   = string.split (chardet_env)
 
 for arg in envlist :
 	if arg[1] == 'L' :
@@ -21,8 +21,8 @@ for arg in envlist :
 
 del envlist
 
-krisp_defs = (os.popen ('chardet-config --defs')).read ()
-envlist    = string.split (krisp_defs)
+chardet_defs = (os.popen ('chardet-config --defs')).read ()
+envlist    = string.split (chardet_defs)
 
 for arg in envlist :
 	if arg[1] == 'I' :
