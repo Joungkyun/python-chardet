@@ -32,6 +32,7 @@ urls = [
 	'http://haaretz.co.il'
 ]
 
+print "Python chardet c binding module version: %s" % (chardet.__version__)
 ch = chardet.init ();
 
 for url in urls :

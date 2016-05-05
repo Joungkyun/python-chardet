@@ -180,7 +180,11 @@ void initchardet () { // {{{
 	PyObject *  m;
 
 	m = Py_InitModule ("chardet", chardet_methods);
+	PyModule_AddStringConstant (m, "__version__", MOD_CHARDET_VERSION);
 	ErrorObject = Py_BuildValue ("s", "chardet initialize error");
+
+	if ( m == NULL )
+		return;
 } // }}}
 
 /*
