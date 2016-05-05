@@ -2,8 +2,8 @@
  * $Id$
  */
 
-#define MOD_VERSION "1.0.1"
-#define MOD_UVERSION "001000001"
+#define MOD_VERSION "1.0.2"
+#define MOD_UVERSION "001000002"
 
 /*
  * Local variables:
