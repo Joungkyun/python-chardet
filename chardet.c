@@ -30,6 +30,7 @@ PyObject * py_destroy (PyObject * self, PyObject * args) { // {{{
 PyObject * py_detect (PyObject * self, PyObject * args) { // {{{
 	PyObject *	err;
 	char *		text;
+	size_t      inlen;
 	int			argc;
 
 	Detect *	ptr;
@@ -39,7 +40,7 @@ PyObject * py_detect (PyObject * self, PyObject * args) { // {{{
 	static PyObject *	new;
 	static PyObject *	ret;
 
-	if ( ! PyArg_ParseTuple (args, "ls|O", (long *) &ptr, &text, &err) )
+	if ( ! PyArg_ParseTuple (args, "ls#|O", (long *) &ptr, &text, &inlen, &err) )
 		return NULL;
 
 	argc = PyTuple_Size (args);
@@ -61,7 +62,12 @@ PyObject * py_detect (PyObject * self, PyObject * args) { // {{{
 		return Py_None;
 	}
 
-	if ( detect_handledata (&ptr, text, &obj) == CHARDET_OUT_OF_MEMORY ) {
+#ifdef CHARDET_BINARY_SAFE
+	if ( detect_handledata_r (&ptr, text, inlen, &obj) == CHARDET_OUT_OF_MEMORY )
+#else
+	if ( detect_handledata (&ptr, text, &obj) == CHARDET_OUT_OF_MEMORY )
+#endif
+	{
 		if ( argc > 2 ) {
 			PyObject * value = PyString_FromString ("On handle processing, occured out of memory");
 			PyList_Append (err, value);
@@ -96,6 +102,7 @@ PyObject * py_detect (PyObject * self, PyObject * args) { // {{{
 PyObject * py_detector (PyObject * self, PyObject * args) { // {{{
 	PyObject *	err;
 	char *		text;
+	size_t		inlen;
 	int			argc;
 
 	DetectObj *	obj;
@@ -104,7 +111,7 @@ PyObject * py_detector (PyObject * self, PyObject * args) { // {{{
 	static PyObject *	new;
 	static PyObject *	ret;
 
-	if ( ! PyArg_ParseTuple (args, "s|O", &text, &err) )
+	if ( ! PyArg_ParseTuple (args, "s#|O", &text, &inlen, &err) )
 		return NULL;
 
 	argc = PyTuple_Size (args);
@@ -125,7 +132,12 @@ PyObject * py_detector (PyObject * self, PyObject * args) { // {{{
 		return Py_None;
 	}
 
-	if ( detect (text, &obj) == CHARDET_OUT_OF_MEMORY ) {
+#ifdef CHARDET_BINARY_SAFE
+	if ( detect_r (text, inlen, &obj) == CHARDET_OUT_OF_MEMORY )
+#else
+	if ( detect (text, &obj) == CHARDET_OUT_OF_MEMORY )
+#endif
+	{
 		if ( argc > 1 ) {
 			PyObject * value = PyString_FromString ("On handle processing, occured out of memory");
 			PyList_Append (err, value);
