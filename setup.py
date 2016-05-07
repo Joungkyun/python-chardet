@@ -4,6 +4,7 @@
 
 from distutils.core import setup, Extension
 import os
+import sys
 import re
 import string
 
@@ -12,8 +13,10 @@ libdir = []
 libs   = [ 'chardet', 'stdc++' ]
 defs   = []
 
+major_version = sys.version[0]
+
 chardet_env = (os.popen ('chardet-config --libs')).read ()
-envlist   = string.split (chardet_env)
+envlist   = chardet_env.split ()
 
 for arg in envlist :
 	if arg[1] == 'L' :
@@ -22,7 +25,7 @@ for arg in envlist :
 del envlist
 
 chardet_defs = (os.popen ('chardet-config --defs')).read ()
-envlist    = string.split (chardet_defs)
+envlist    = chardet_defs.split ()
 
 for arg in envlist :
 	if arg[1] == 'I' :
@@ -33,14 +36,13 @@ del envlist
 
 setup (
 		name         = 'chardet',
-		version      = '1.0.0',
+		version      = '1.0.2',
 		description  = 'python binding for lichardet API',
 		author       = 'JoungKyun.Kim',
 		author_email = 'admin@oops.org',
 		url          = 'http://oops.org',
 		license      = 'MPL 1.1',
 		platforms    = 'x86/x86_64',
-		#py_modules   = [ 'krisp' ],
 		ext_modules  = [
 			Extension (
 						'chardet',
