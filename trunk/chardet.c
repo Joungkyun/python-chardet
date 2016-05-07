@@ -203,7 +203,7 @@ static struct PyMethodDef chardet_methods[] = { // {{{
 static struct PyModuleDef chardet_moduledef = { // {{{
 	PyModuleDef_HEAD_INIT,
 	"chardet",
-	"Mozilla Universial charset detect C binding extension",
+	"Mozilla Universal charset detect C binding extension",
 	-1,
 	chardet_methods,
 	NULL,
@@ -222,7 +222,7 @@ MOD_INIT(chardet) { // {{{
 	m = Py_InitModule3 (
 			"chardet",
 			chardet_methods,
-			"Mozilla Universial charset detect C binding extension"
+			"Mozilla Universal charset detect C binding extension"
 	);
 #endif
 
