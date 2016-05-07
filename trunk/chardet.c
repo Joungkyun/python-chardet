@@ -110,8 +110,8 @@ PyObject * py_detect (PyObject * self, PyObject * args) { // {{{
 		ret = PyClass_New(NULL, PyDict_New(), PyString_FromString("CHARDET_PTR"));
 
 	new = PyInstance_NewRaw(ret, dict);
-	Py_DECREF (dict);
 #endif
+	Py_DECREF (dict);
 
 	return new;
 } // }}}
@@ -185,8 +185,8 @@ PyObject * py_detector (PyObject * self, PyObject * args) { // {{{
 		ret = PyClass_New(NULL, PyDict_New(), PyString_FromString("CHARDET_PTR"));
 
 	new = PyInstance_NewRaw(ret, dict);
-	Py_DECREF (dict);
 #endif
+	Py_DECREF (dict);
 
 	return new;
 } // }}}
