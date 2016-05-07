@@ -5,7 +5,11 @@
 
 import sys
 import os
-import urllib
+
+try:
+	from urllib.request import urlopen
+except ImportError:
+	from urllib2 import urlopen
 
 try:
 	import chardet
@@ -21,7 +25,7 @@ except ImportError:
 	)
 	import chardet
 
-urlread = lambda url: urllib.urlopen (url).read ()
+urlread = lambda url: urlopen (url).read ()
 
 urls = [
 	'http://google.cn',
@@ -34,11 +38,11 @@ urls = [
 
 for url in urls :
 	err = []
-	print "URL %-20s : " % url,
+	print ("URL %-20s : " % url),
 	# det member => encoding(string), confidence(.2f)
 	det = chardet.detector (urlread (url), err)
 	if ( det == None ) :
-		print "Error: %s" % err
-	print "encoding: %-15s, confidence: %.2f" % (det.encoding, det.confidence)
+		print ("Error: %s" % err)
+	print ("encoding: %-15s, confidence: %.2f" % (det.encoding, det.confidence))
 
 sys.exit (0)

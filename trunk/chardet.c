@@ -6,6 +6,17 @@
 #include <chardet.h>
 #include "version.h"
 
+#if PY_MAJOR_VERSION >= 3
+	#define MOD_ERROR_VAL NULL
+	#define MOD_SUCCESS_VAL(val) val
+	#define MOD_INIT(name) PyMODINIT_FUNC PyInit_##name(void)
+	#define PyString_FromString PyBytes_FromString
+#else
+	#define MOD_ERROR_VAL
+	#define MOD_SUCCESS_VAL(val)
+	#define MOD_INIT(name) PyMODINIT_FUNC init##name(void)
+#endif
+
 static PyObject * ErrorObject;
 
 PyObject * py_init (PyObject * self, PyObject * args) { // {{{
@@ -37,8 +48,10 @@ PyObject * py_detect (PyObject * self, PyObject * args) { // {{{
 	DetectObj *	obj;
 	PyObject *	dict;
 	PyObject *	prop;
-	static PyObject *	new;
+	PyObject *	new;
+#if PY_MAJOR_VERSION < 3
 	static PyObject *	ret;
+#endif
 
 	if ( ! PyArg_ParseTuple (args, "ls#|O", (long *) &ptr, &text, &inlen, &err) )
 		return NULL;
@@ -90,11 +103,15 @@ PyObject * py_detect (PyObject * self, PyObject * args) { // {{{
 
 	detect_obj_free (&obj);
 
+#if PY_MAJOR_VERSION >= 3
+	new = _PyNamespace_New (dict);
+#else
 	if ( ret == NULL )
 		ret = PyClass_New(NULL, PyDict_New(), PyString_FromString("CHARDET_PTR"));
 
 	new = PyInstance_NewRaw(ret, dict);
 	Py_DECREF (dict);
+#endif
 
 	return new;
 } // }}}
@@ -108,8 +125,10 @@ PyObject * py_detector (PyObject * self, PyObject * args) { // {{{
 	DetectObj *	obj;
 	PyObject *	dict;
 	PyObject *	prop;
-	static PyObject *	new;
+	PyObject *	new;
+#if PY_MAJOR_VERSION < 3
 	static PyObject *	ret;
+#endif
 
 	if ( ! PyArg_ParseTuple (args, "s#|O", &text, &inlen, &err) )
 		return NULL;
@@ -159,11 +178,15 @@ PyObject * py_detector (PyObject * self, PyObject * args) { // {{{
 
 	detect_obj_free (&obj);
 
+#if PY_MAJOR_VERSION >= 3
+	new = _PyNamespace_New (dict);
+#else
 	if ( ret == NULL )
 		ret = PyClass_New(NULL, PyDict_New(), PyString_FromString("CHARDET_PTR"));
 
 	new = PyInstance_NewRaw(ret, dict);
 	Py_DECREF (dict);
+#endif
 
 	return new;
 } // }}}
@@ -176,15 +199,40 @@ static struct PyMethodDef chardet_methods[] = { // {{{
 	{ NULL, NULL }
 }; // }}}
 
-void initchardet () { // {{{
-	PyObject *  m;
+#if PY_MAJOR_VERSION >= 3
+static struct PyModuleDef chardet_moduledef = { // {{{
+	PyModuleDef_HEAD_INIT,
+	"chardet",
+	"Mozilla Universial charset detect C binding extension",
+	-1,
+	chardet_methods,
+	NULL,
+	NULL,
+	NULL,
+	NULL
+}; // }}}
+#endif
 
-	m = Py_InitModule ("chardet", chardet_methods);
+MOD_INIT(chardet) { // {{{
+	PyObject * m;
+
+#if PY_MAJOR_VERSION >= 3
+	m = PyModule_Create (&chardet_moduledef);
+#else
+	m = Py_InitModule3 (
+			"chardet",
+			chardet_methods,
+			"Mozilla Universial charset detect C binding extension"
+	);
+#endif
+
+	if ( m == NULL )
+		return MOD_ERROR_VAL;
+
 	PyModule_AddStringConstant (m, "__version__", MOD_CHARDET_VERSION);
 	ErrorObject = Py_BuildValue ("s", "chardet initialize error");
 
-	if ( m == NULL )
-		return;
+	return MOD_SUCCESS_VAL(m);
 } // }}}
 
 /*

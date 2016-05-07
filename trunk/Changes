@@ -3,10 +3,13 @@ Revision history for Python extension KRISP
 $Id$
 
 1.0.2
-	* Fri Mar  6 2016 JoungKyun.Kim <http://oops.org>
+	* Sat May  8 2016 JoungKyun.Kim <http://oops.org>
+	- support python 3
+
+	* Fri May  6 2016 JoungKyun.Kim <http://oops.org>
 	- add __version__ constant
 
-	* Thu Mar  5 2016 JoungKyun.Kim <http://oops.org>
+	* Thu May  5 2016 JoungKyun.Kim <http://oops.org>
 	- support detect_handledata_r for binary safe problems (libchardet >= 1.0.5)
 
 1.0.1
