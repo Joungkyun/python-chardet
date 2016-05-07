@@ -22,7 +22,7 @@ clean:
 
 dist:
 	version=`cat version.h | grep MOD_CHARDET_VERSION | awk '{print $$3}' | sed 's/"//g'`; \
-	mkdir -p chardet-$$version; \
-	cp -af $(DIST_FILES) Makefile *.c *.h *.py chardet-$$version/; \
-	tar cvfpj chardet-$$version.tar.bz2 chardet-$$version; \
-	rm -fr chardet-$$version
+	mkdir -p $(NAME)-$$version; \
+	cp -af $(DIST_FILES) Makefile *.c *.h *.py $(NAME)-$$version/; \
+	tar cvfpj $(NAME)-$$version.tar.bz2 $(NAME)-$$version; \
+	rm -fr $(NAME)-$$version
