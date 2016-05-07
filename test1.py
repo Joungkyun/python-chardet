@@ -3,6 +3,7 @@
 
 # $Id$
 
+from __future__ import print_function
 import sys
 import os
 
@@ -26,6 +27,7 @@ except ImportError:
 	import chardet
 
 urlread = lambda url: urlopen (url).read ()
+PyVer = int (sys.version[0])
 
 urls = [
 	'http://google.cn',
@@ -38,7 +40,7 @@ urls = [
 
 for url in urls :
 	err = []
-	print ("URL %-20s : " % url),
+	print ("URL %-20s : " % url, end=""),
 	# det member => encoding(string), confidence(.2f)
 	det = chardet.detector (urlread (url), err)
 	if ( det == None ) :
