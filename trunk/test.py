@@ -3,8 +3,11 @@
 
 # $Id$
 
+from __future__ import print_function
 import sys
 import os
+
+PyVer = int (sys.version[0])
 
 try:
 	from urllib.request import urlopen
@@ -41,13 +44,14 @@ ch = chardet.init ();
 
 for url in urls :
 	err = []
-	print ("URL %-20s : " % url),
+	print ("URL %-20s : " % url, end=""),
+
 	# det member => encoding(string), confidence(.2f)
 	det = chardet.detect (ch, urlread (url), err)
 	if ( det == None ) :
 		print ("Error: %s" % err)
 	print ("encoding: %-15s, confidence: %.2f" % (det.encoding, det.confidence))
-	#print (det)
+	print (det)
 
 chardet.destroy (ch);
 
