@@ -7,6 +7,7 @@ from __future__ import print_function
 import sys
 import os
 
+# for compatible python 3
 try:
 	from urllib.request import urlopen
 except ImportError:
