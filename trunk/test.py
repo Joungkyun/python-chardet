@@ -9,6 +9,7 @@ import os
 
 PyVer = int (sys.version[0])
 
+# for compatible python 3
 try:
 	from urllib.request import urlopen
 except ImportError:
