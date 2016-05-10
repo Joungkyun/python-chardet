@@ -20,7 +20,7 @@
 
 static PyObject * ErrorObject;
 
-PyObject * py_detect (PyObject * self, PyObject * args) { // {{{
+static PyObject * py_detect (PyObject * self, PyObject * args) { // {{{
 	PyObject        * err = NULL;
 	char            * text;
 	size_t            inlen;
@@ -29,12 +29,6 @@ PyObject * py_detect (PyObject * self, PyObject * args) { // {{{
 	DetectObj       * obj;
 	PyObject        * dict;
 	PyObject        * prop;
-#if 0
-	PyObject        * new;
-#if PY_MAJOR_VERSION < 3
-	static PyObject * ret;
-#endif
-#endif
 
 	if ( ! PyArg_ParseTuple (args, "s#|O", &text, &inlen, &err) )
 		return NULL;
@@ -85,20 +79,6 @@ PyObject * py_detect (PyObject * self, PyObject * args) { // {{{
 	detect_obj_free (&obj);
 
 	return dict;
-
-#if 0
-#if PY_MAJOR_VERSION >= 3
-	new = _PyNamespace_New (dict);
-#else
-	if ( ret == NULL )
-		ret = PyClass_New(NULL, PyDict_New(), PyString_FromString("CHARDET_PTR"));
-
-	new = PyInstance_NewRaw(ret, dict);
-#endif
-	Py_DECREF (dict);
-
-	return new;
-#endif
 } // }}}
 
 static struct PyMethodDef chardet_methods[] = { // {{{
@@ -109,7 +89,7 @@ static struct PyMethodDef chardet_methods[] = { // {{{
 #if PY_MAJOR_VERSION >= 3
 static struct PyModuleDef chardet_moduledef = { // {{{
 	PyModuleDef_HEAD_INIT,
-	"chardet",
+	"_chardet",
 	"Mozilla Universal charset detect C binding extension",
 	-1,
 	chardet_methods,
@@ -120,14 +100,14 @@ static struct PyModuleDef chardet_moduledef = { // {{{
 }; // }}}
 #endif
 
-MOD_INIT(chardet) { // {{{
+MOD_INIT(_chardet) { // {{{
 	PyObject * m;
 
 #if PY_MAJOR_VERSION >= 3
 	m = PyModule_Create (&chardet_moduledef);
 #else
 	m = Py_InitModule3 (
-			"chardet",
+			"_chardet",
 			chardet_methods,
 			"Mozilla Universal charset detect C binding extension"
 	);
@@ -137,7 +117,7 @@ MOD_INIT(chardet) { // {{{
 		return MOD_ERROR_VAL;
 
 	PyModule_AddStringConstant (m, "__version__", MOD_CHARDET_VERSION);
-	ErrorObject = Py_BuildValue ("s", "chardet initialize error");
+	ErrorObject = Py_BuildValue ("s", "_chardet initialize error");
 
 	return MOD_SUCCESS_VAL(m);
 } // }}}
