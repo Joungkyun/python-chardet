@@ -1,11 +1,11 @@
 PYTHON = /usr/bin/python
-NAME = mod_chardet
+NAME = chardet
 PROG = chardet
 
 DIST_FILES = COPYING INSTALL Changes README
 
 
-all: install
+all: build
 
 build:
 	$(PYTHON) setup.py build
@@ -18,11 +18,13 @@ test: build
 	$(PYTHON) test1.py
 
 clean:
-	rm -rf build *.bz2
+	rm -rf build *.bz2 dist MANIFEST
+	find . -name "*.pyc" -exec rm -f {} \;
 
 dist:
-	version=`cat version.h | grep MOD_CHARDET_VERSION | awk '{print $$3}' | sed 's/"//g'`; \
-	mkdir -p $(NAME)-$$version; \
-	cp -af $(DIST_FILES) Makefile *.c *.h *.py $(NAME)-$$version/; \
-	tar cvfpj $(NAME)-$$version.tar.bz2 $(NAME)-$$version; \
-	rm -fr $(NAME)-$$version
+	$(PYTHON) setup.py sdist --formats=bztar
+#	version=`cat src/version.h | grep MOD_CHARDET_VERSION | awk '{print $$3}' | sed 's/"//g'`; \
+#	mkdir -p dist/$(NAME)-$$version; \
+#	cp -af $(DIST_FILES) Makefile src *.py chardet dist/$(NAME)-$$version/; \
+#	cd dist; tar cvfpj $(NAME)-$$version.tar.bz2 $(NAME)-$$version; cd -; \
+#	rm -fr dist/$(NAME)-$$version

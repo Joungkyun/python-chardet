@@ -1,6 +1,4 @@
-CHARDET extension 1.0.0
-
-$Id$
+CHARDET extension 2.0.0
 
 DESCRIPTION
 
@@ -9,17 +7,18 @@ This is python extension that is lichardet python frontend.
 lichardet is based on Mozilla Universal Charset Detector library and, detects
 the character set used to encode data.
 
-Original code was writed by Netscape Communications Corporation, and John
-Gardiner Myers <jgmyers@proofpoint.com> made independent Universal Detector
-code from Mozilla Browser.
+From 2.0.0, this module has compatible API with python-chardet. This means that,
+this module can be in place the python-chardet without code changes.
+
+This module is a c-binding, is much faster than the python-chardet.
 
 
 INSTALLATION
 
-To install this extension type the following:
+To install this module type the following:
 
-    python setup.py build
-    python setup.py install
+    python setup.py build or make build
+    python setup.py install or make install
 
     for details, read INSTALL document.
 
@@ -28,13 +27,20 @@ DEPENDENCIES
 
 This module requires these libraries:
 
-    lichardet that is distributed by oops.org
-    http://mirror.oops.org/pub/oops/lichardet/
+    lichardet that is distributed by follows:
+    https://github.com/Joungkyun/libchardet
+
+
+USAGE
+
+See also http://chardet.readthedocs.io/en/latest/usage.html or
+test*.py in this source
+
 
 
 COPYRIGHT AND LICENCE
 
-Copyright (C) 2011 by JoungKyun.Kim <http://oops.org>
+Copyright (C) 2016 by JoungKyun.Kim <http://oops.org>
 
 Version: MPL 1.1
 

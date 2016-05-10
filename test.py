@@ -7,53 +7,44 @@ from __future__ import print_function
 import sys
 import os
 
-PyVer = int (sys.version[0])
-
-# for compatible python 3
 try:
-	from urllib.request import urlopen
+    from urllib.request import urlopen
 except ImportError:
-	from urllib2 import urlopen
+    from urllib2 import urlopen
 
-try:
-	import chardet
-except ImportError:
-	osinfo = os.uname ()
-	sys.path.append (
-		os.getcwd () +
-		'/build/lib.' +
-		osinfo[0].lower() + '-'
-		+ osinfo[4] + '-' +
-		str (sys.version_info[0]) + '.'
-		+ str(sys.version_info[1])
-	)
-	import chardet
+osinfo = os.uname ()
+testmodpath = os.getcwd () + \
+            '/build/lib.' + \
+            osinfo[0].lower() + '-' + \
+            osinfo[4] + '-' + \
+            str (sys.version_info[0]) + '.' + \
+            str(sys.version_info[1])
 
-urlread = lambda url: urlopen (url).read ()
+sys.path.insert (0, testmodpath)
 
-urls = [
-	'http://google.cn',
-	'http://yahoo.co.jp',
-	'http://amazon.co.jp',
-	'http://pravda.ru',
-	'http://auction.co.kr',
-	'http://haaretz.co.il'
-]
+from chardet.universaldetector import UniversalDetector
 
-print ("Python chardet c binding module version: %s" % (chardet.__version__))
-ch = chardet.init ();
+usock = urlopen('http://yahoo.co.jp/')
+detector = UniversalDetector()
 
-for url in urls :
-	err = []
-	print ("URL %-20s : " % url, end=""),
+detector.reset ();
+for line in usock.readlines():
+    detector.feed(line)
+    if detector.done: break
 
-	# det member => encoding(string), confidence(.2f)
-	det = chardet.detect (ch, urlread (url), err)
-	if ( det == None ) :
-		print ("Error: %s" % err)
-	print ("encoding: %-15s, confidence: %.2f" % (det.encoding, det.confidence))
-	print (det)
-
-chardet.destroy (ch);
+detector.close()
+usock.close()
+print (detector.result)
 
 sys.exit (0)
+
+#
+# Local variables:
+# tab-width: 4
+# indent-tabs-mode
+# nil
+# c-basic-offset: 4
+# End:
+# vim600: et sw=4 ts=4 fdm=marker
+# vim<600: et sw=4 ts=4
+#

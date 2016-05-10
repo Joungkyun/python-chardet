@@ -1,7 +1,8 @@
 /*
  * $Id$
  */
-#include "Python.h"
+#include <Python.h>
+#include <structmember.h>
 
 #include <chardet.h>
 #include "version.h"
@@ -19,115 +20,20 @@
 
 static PyObject * ErrorObject;
 
-PyObject * py_init (PyObject * self, PyObject * args) { // {{{
-	Detect *	ptr;
-
-	if ( (ptr = detect_init ()) == NULL )
-		return Py_None;
-
-	return Py_BuildValue ("l", (long *) ptr);
-} // }}}
-
-PyObject * py_destroy (PyObject * self, PyObject * args) { // {{{
-	Detect *	ptr;
-	if ( ! PyArg_ParseTuple (args, "l", (long *) &ptr) )
-		return NULL;
-
-	detect_destroy (&ptr);
-
-	return Py_None;
-} // }}}
-
 PyObject * py_detect (PyObject * self, PyObject * args) { // {{{
-	PyObject *	err;
-	char *		text;
-	size_t      inlen;
-	int			argc;
+	PyObject        * err = NULL;
+	char            * text;
+	size_t            inlen;
+	int               argc;
 
-	Detect *	ptr;
-	DetectObj *	obj;
-	PyObject *	dict;
-	PyObject *	prop;
-	PyObject *	new;
+	DetectObj       * obj;
+	PyObject        * dict;
+	PyObject        * prop;
+#if 0
+	PyObject        * new;
 #if PY_MAJOR_VERSION < 3
-	static PyObject *	ret;
+	static PyObject * ret;
 #endif
-
-	if ( ! PyArg_ParseTuple (args, "ls#|O", (long *) &ptr, &text, &inlen, &err) )
-		return NULL;
-
-	argc = PyTuple_Size (args);
-
-	if ( err != NULL ) {
-		if ( ! PyList_Check (err) ) {
-			PyErr_SetString (ErrorObject, "3th argument is must PyLis");
-			return NULL;
-		}
-	}
-
-	detect_reset (&ptr);
-	if ( (obj = detect_obj_init ()) == NULL ) {
-		if ( argc > 2 ) {
-			PyObject * value = PyString_FromString ("Memory allocation failed");
-			PyList_Append (err, value);
-			Py_DECREF (value);
-		}
-		return Py_None;
-	}
-
-#ifdef CHARDET_BINARY_SAFE
-	if ( detect_handledata_r (&ptr, text, inlen, &obj) == CHARDET_OUT_OF_MEMORY )
-#else
-	if ( detect_handledata (&ptr, text, &obj) == CHARDET_OUT_OF_MEMORY )
-#endif
-	{
-		if ( argc > 2 ) {
-			PyObject * value = PyString_FromString ("On handle processing, occured out of memory");
-			PyList_Append (err, value);
-			Py_DECREF (value);
-		}
-		detect_obj_free (&obj);
-		return Py_None;
-	}
-	detect_dataend (&ptr);
-
-	dict = PyDict_New ();
-
-	prop = Py_BuildValue ("s", obj->encoding);
-	PyDict_SetItemString (dict, "encoding", prop);
-	Py_DECREF (prop);
-
-	prop = Py_BuildValue ("f", obj->confidence);
-	PyDict_SetItemString (dict, "confidence", prop);
-	Py_DECREF (prop);
-
-	detect_obj_free (&obj);
-
-#if PY_MAJOR_VERSION >= 3
-	new = _PyNamespace_New (dict);
-#else
-	if ( ret == NULL )
-		ret = PyClass_New(NULL, PyDict_New(), PyString_FromString("CHARDET_PTR"));
-
-	new = PyInstance_NewRaw(ret, dict);
-#endif
-	Py_DECREF (dict);
-
-	return new;
-} // }}}
-
-PyObject * py_detector (PyObject * self, PyObject * args) { // {{{
-	PyObject *	err;
-	char *		text;
-	size_t		inlen;
-	int			argc;
-
-	DetectObj *	obj;
-	PyObject *	dict;
-	PyObject *	prop;
-	PyObject *	new;
-#if PY_MAJOR_VERSION < 3
-	static PyObject *	ret;
 #endif
 
 	if ( ! PyArg_ParseTuple (args, "s#|O", &text, &inlen, &err) )
@@ -178,6 +84,9 @@ PyObject * py_detector (PyObject * self, PyObject * args) { // {{{
 
 	detect_obj_free (&obj);
 
+	return dict;
+
+#if 0
 #if PY_MAJOR_VERSION >= 3
 	new = _PyNamespace_New (dict);
 #else
@@ -189,13 +98,11 @@ PyObject * py_detector (PyObject * self, PyObject * args) { // {{{
 	Py_DECREF (dict);
 
 	return new;
+#endif
 } // }}}
 
 static struct PyMethodDef chardet_methods[] = { // {{{
-	{ "init",     py_init,     METH_NOARGS },
 	{ "detect",   py_detect,   METH_VARARGS },
-	{ "destroy",  py_destroy,  METH_VARARGS },
-	{ "detector", py_detector, METH_VARARGS },
 	{ NULL, NULL }
 }; // }}}
 
