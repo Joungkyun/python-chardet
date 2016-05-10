@@ -51,7 +51,7 @@ setup (
 		packages     = { 'chardet' },
 		ext_modules  = [
 			Extension (
-						'chardet.chardet',
+						'chardet._chardet',
 						[ 'src/chardet.c' ],
 						include_dirs  = incdir,
 						library_dirs  = libdir,
@@ -61,6 +61,14 @@ setup (
 			Extension (
 						'chardet.universaldetector',
 						[ 'src/universaldetector.c' ],
+						include_dirs  = incdir,
+						library_dirs  = libdir,
+						libraries     = libs,
+						define_macros = defs
+					),
+			Extension (
+						'chardet_c',
+						[ 'src/chardet_c.c' ],
 						include_dirs  = incdir,
 						library_dirs  = libdir,
 						libraries     = libs,
@@ -78,3 +86,12 @@ setup (
 		],
 		keywords     = [ 'encoding', 'charset', 'i18n' ]
 )
+
+#
+# Local variables:
+# tab-width: 4
+# c-basic-offset: 4
+# End:
+# vim600: noet sw=4 ts=4 fdm=marker
+# vim<600: noet sw=4 ts=4
+#
