@@ -1,6 +1,7 @@
 PYTHON = /usr/bin/python
 NAME = chardet
 PROG = chardet
+MAKE = make
 
 DIST_FILES = COPYING INSTALL Changes README
 
@@ -14,8 +15,7 @@ install:
 	$(PYTHON) setup.py install
 
 test: build
-	$(PYTHON) test.py
-	$(PYTHON) test1.py
+	$(MAKE) -C tests
 
 clean:
 	rm -rf build *.bz2 dist MANIFEST
