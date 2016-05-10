@@ -2,22 +2,22 @@ Mod_chardet Installation
 
 Quick Install
 
-  shell> make install
-  or
-  shell> make
+  [user@host ~]$ make install
 
 
 Build option
 
  1. Build only
-    shell> make build
+    [user@host ~]$ make build
 
  2. Build test
-    shell> make test
+    [user@host ~]$ make test
 
  3. Clean build
-    shell> make clean
+    [user@host ~]$ make clean
 
  4. If your python path is not /usr/bin/python
-    make PYTHON=path option
+    [user@host ~]$ make option PYTHON=/usr/bin/python3
 
+ 5. build source package
+    [user@host ~]$ make dist

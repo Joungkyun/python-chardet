@@ -8,6 +8,10 @@ import sys
 import re
 import string
 
+def readme() :
+	with open('README') as f:
+		return f.read()
+
 incdir = []
 libdir = []
 libs   = [ 'chardet', 'stdc++' ]
@@ -36,21 +40,41 @@ del envlist
 
 setup (
 		name         = 'chardet',
-		version      = '1.0.2',
-		description  = 'python binding for lichardet API',
+		version      = '2.0.0',
+		description  = 'python binding for libchardet API',
+		long_description=readme(),
 		author       = 'JoungKyun.Kim',
 		author_email = 'admin@oops.org',
 		url          = 'http://oops.org',
 		license      = 'MPL 1.1',
 		platforms    = 'x86/x86_64',
+		packages     = { 'chardet' },
 		ext_modules  = [
 			Extension (
-						'chardet',
-						['chardet.c' ],
+						'chardet.chardet',
+						[ 'src/chardet.c' ],
 						include_dirs  = incdir,
 						library_dirs  = libdir,
 						libraries     = libs,
 						define_macros = defs
-					)
-		]
+					),
+			Extension (
+						'chardet.universaldetector',
+						[ 'src/universaldetector.c' ],
+						include_dirs  = incdir,
+						library_dirs  = libdir,
+						libraries     = libs,
+						define_macros = defs
+					),
+		],
+		classifiers  = [
+			("License :: OSI Approved :: MIT License" +
+			 " Public License (LGPL)"),
+			"Programming Language :: Python",
+			'Programming Language :: Python :: 2.6',
+			'Programming Language :: Python :: 2.7',
+			'Programming Language :: Python :: 3',
+			'Topic :: Software Development :: Libraries :: Python Modules'
+		],
+		keywords     = [ 'encoding', 'charset', 'i18n' ]
 )
