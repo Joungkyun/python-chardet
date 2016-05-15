@@ -1,0 +1,32 @@
+Revision history for Python extension KRISP
+
+$Id$
+
+2.0.0
+	* Tue May 10 2016 JoungKyun.Kim <http://oops.org>
+	- compatible python-chardet <https://github.com/chardet/chardet>
+
+1.0.2
+	* Sat May  8 2016 JoungKyun.Kim <http://oops.org>
+	- support python 3
+	- 1.0.2 release
+
+	* Fri May  6 2016 JoungKyun.Kim <http://oops.org>
+	- add __version__ constant
+
+	* Thu May  5 2016 JoungKyun.Kim <http://oops.org>
+	- support detect_handledata_r for binary safe problems (libchardet >= 1.0.5)
+
+1.0.1
+	* Thu Apr 27 2011 JoungKyun.Kim <http://oops.org>
+	- fixed overflow 32bit address on 64bit system
+	- 1.0.1 release
+
+	* Tue Apr 26 2011 JoungKyun.Kim <http://oops.org>
+	- start 1.0.1 tree
+	- fixed chardet.detect segfault on 64bit system
+
+1.0.0
+    * Mon Jul  5 2010 JoungKyun.Kim <http://oops.org>
+    - 1.0.0 release
+
