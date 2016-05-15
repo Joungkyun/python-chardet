@@ -2,6 +2,9 @@ Revision history for Python extension KRISP
 
 $Id$
 
+2.0.1
+
+
 2.0.0
 	* Tue May 10 2016 JoungKyun.Kim <http://oops.org>
 	- compatible python-chardet <https://github.com/chardet/chardet>

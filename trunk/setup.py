@@ -40,7 +40,7 @@ del envlist
 
 setup (
 		name         = 'chardet',
-		version      = '2.0.0',
+		version      = '2.0.1',
 		description  = 'python binding for libchardet API',
 		long_description=readme(),
 		author       = 'JoungKyun.Kim',
