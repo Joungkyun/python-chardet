@@ -78,7 +78,6 @@ setup (
 		classifiers  = [
 			("License :: OSI Approved :: MIT License" +
 			 " Public License (LGPL)"),
-			"Programming Language :: C++",
 			"Programming Language :: Python",
 			'Programming Language :: Python :: 2.6',
 			'Programming Language :: Python :: 2.7',

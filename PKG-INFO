@@ -1,0 +1,73 @@
+Metadata-Version: 1.1
+Name: chardet
+Version: 2.0.0
+Summary: python binding for libchardet API
+Home-page: http://oops.org
+Author: JoungKyun.Kim
+Author-email: admin@oops.org
+License: MPL 1.1
+Description: CHARDET extension 2.0.0
+        
+        DESCRIPTION
+        
+        This is python extension that is libchardet python frontend.
+        
+        libchardet is based on Mozilla Universal Charset Detector library and, detects
+        the character set used to encode data.
+        
+        From 2.0.0, this module has compatible API with python-chardet. This means that,
+        this module can be in place the python-chardet without code changes.
+        
+        This module is a c-binding, is much faster than the python-chardet.
+        
+        
+        INSTALLATION
+        
+        To install this module type the following:
+        
+            python setup.py build or make build
+            python setup.py install or make install
+        
+            for details, read INSTALL document.
+        
+        
+        DEPENDENCIES
+        
+        This module requires these libraries:
+        
+            libchardet that is distributed by follows:
+            https://github.com/Joungkyun/libchardet
+        
+        
+        USAGE
+        
+        See also http://chardet.readthedocs.io/en/latest/usage.html or
+        test*.py in this source
+        
+        
+        
+        COPYRIGHT AND LICENCE
+        
+        Copyright (C) 2016 by JoungKyun.Kim <http://oops.org>
+        
+        Version: MPL 1.1
+        
+        The contents of this file are subject to the Mozilla Public License Version
+        1.1 (the "License"); you may not use this file except in compliance with
+        the License. You may obtain a copy of the License at
+        http://www.mozilla.org/MPL/
+        
+        Software distributed under the License is distributed on an "AS IS" basis,
+        WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
+        for the specific language governing rights and limitations under the
+        License.
+        
+        
+Keywords: encoding,charset,i18n
+Platform: x86/x86_64
+Classifier: License :: OSI Approved :: MIT License Public License (LGPL)
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 2.6
+Classifier: Programming Language :: Python :: 2.7
+Classifier: Programming Language :: Python :: 3
+Classifier: Topic :: Software Development :: Libraries :: Python Modules

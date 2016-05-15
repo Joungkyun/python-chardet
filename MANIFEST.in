@@ -1,3 +1,0 @@
-include src/*.h
-include Makefile COPYING Changes INSTALL
-include tests/*
