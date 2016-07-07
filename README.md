@@ -43,10 +43,14 @@ This module requires follow library:
 
 To install this module type the following:
 
-    python setup.py build or make build
-    python setup.py install or make install
-
-    for details, read [INSTALL.md](/INSTALL.md) document.
+```bash
+  [root@host python-chardet]$ make build
+  [root@host python-chardet]$ make install
+  [root@host python-chardet]$ # or
+  [root@host python-chardet]$ python setup.py build or make build
+  [root@host python-chardet]$ python setup.py install or make install
+```
+for details, read [INSTALL.md](/INSTALL.md) document.
 
 ## USAGE
 
