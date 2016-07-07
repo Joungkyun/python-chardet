@@ -1,4 +1,4 @@
-Mod_chardet Installation
+python-chardet Installation
 ===
 
 ## Dependency
