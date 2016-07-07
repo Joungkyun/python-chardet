@@ -4,9 +4,6 @@ python-chardet Installation
 ## Dependency
 
 In order to build the chardet python modue, is required [libchardet](https://github.com/Joungkyun/libchardet) library.
-See also follow url:
-
-    https://github.com/Joungkyun/libchardet/blob/master/INSTALL
 
 When you build a chardet module, you will need chardet-config of libcharset.
 If the path of chardet-config does not include the PATH environment, please
