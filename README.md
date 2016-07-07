@@ -26,7 +26,7 @@ This is python extension that is [libchardet](https://github.com/Joungkyun/libch
 the character set used to encode data.
 
 From 2.0.0, this module has compatible API with [python-chardet](https://pypi.python.org/pypi/chardet). This means that,
-this module can be in place the [python-chardet](https://pypi.python.org/pypi/chardet) without code changes.
+this module can be in place the [python-chardet](https://pypi.python.org/pypi/chardet) in PYPI without code changes.
 
 This module is a c-binding, is much faster than the [python-chardet](https://pypi.python.org/pypi/chardet).
 
