@@ -2,6 +2,7 @@ PYTHON = /usr/bin/python
 NAME = chardet
 PROG = chardet
 MAKE = make
+ARCH = $(shell uname -m)
 
 DIST_FILES = COPYING INSTALL Changes README
 
@@ -18,8 +19,11 @@ test: build
 	$(MAKE) -C tests
 
 clean:
-	rm -rf build *.bz2 dist MANIFEST chardet.egg-info
+	rm -rf build *.bz2 MANIFEST chardet.egg-info
 	find . -name "*.pyc" -exec rm -f {} \;
+
+distclean: clean
+	rm -rf dist
 
 dist:
 	$(PYTHON) setup.py sdist --formats=bztar
@@ -29,5 +33,5 @@ dist:
 #	cd dist; tar cvfpj $(NAME)-$$version.tar.bz2 $(NAME)-$$version; cd -; \
 #	rm -fr dist/$(NAME)-$$version
 
-whl:
-	$(PYTHON) setup.py bdist_wheel
+bdist:
+	$(PYTHON) setup.py bdist_wheel --plat-name manylinux1_$(ARCH)
