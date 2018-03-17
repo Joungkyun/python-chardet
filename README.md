@@ -3,7 +3,7 @@ CHARDET extension v2
 
 ## COPYRIGHT AND LICENCE
 
-Copyright (C) 2016 by JoungKyun.Kim &lt;http://oops.org&gt; And all rights reserved.
+Copyright (C) 2018 by JoungKyun.Kim &lt;http://oops.org&gt; And all rights reserved.
 
 Version: ***MPL 1.1***
 
