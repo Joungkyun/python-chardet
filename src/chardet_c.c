@@ -1,6 +1,3 @@
-/*
- * $Id$
- */
 #include "Python.h"
 
 #include <chardet.h>
