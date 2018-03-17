@@ -2,7 +2,8 @@
 
 # $Id$
 
-from distutils.core import setup, Extension
+#from distutils.core import setup, Extension
+from setuptools import setup, Extension
 import os
 import sys
 import re

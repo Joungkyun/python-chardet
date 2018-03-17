@@ -18,7 +18,7 @@ test: build
 	$(MAKE) -C tests
 
 clean:
-	rm -rf build *.bz2 dist MANIFEST
+	rm -rf build *.bz2 dist MANIFEST chardet.egg-info
 	find . -name "*.pyc" -exec rm -f {} \;
 
 dist:
@@ -28,3 +28,6 @@ dist:
 #	cp -af $(DIST_FILES) Makefile src *.py chardet dist/$(NAME)-$$version/; \
 #	cd dist; tar cvfpj $(NAME)-$$version.tar.bz2 $(NAME)-$$version; cd -; \
 #	rm -fr dist/$(NAME)-$$version
+
+whl:
+	$(PYTHON) setup.py bdist_wheel
