@@ -3,7 +3,7 @@ CHARDET extension v2
 
 ## COPYRIGHT AND LICENCE
 
-Copyright (C) 2018 by JoungKyun.Kim &lt;http://oops.org&gt; And all rights reserved.
+Copyright 2021. JoungKyun.Kim all rights reserved.
 
 Version: ***MPL 1.1***
 
@@ -29,6 +29,15 @@ From 2.0.0, this module has compatible API with [python-chardet](https://pypi.py
 this module can be in place the [python-chardet](https://pypi.python.org/pypi/chardet) in PYPI without code changes.
 
 This module is a c-binding, is much faster than the [python-chardet](https://pypi.python.org/pypi/chardet).
+
+
+## Differences with traditional Chardet of PYPI
+- compatible with 2.x
+- different with 3.x
+  - don't support language key in chardet.universaldetector.UniversalDetector.feed API
+- different with 4.x
+  - don't support chatdet.deteact_all
+  - don't support language key in chardet.universaldetector.UniversalDetector.feed API
 
 
 ## INSTALLATION

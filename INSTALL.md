@@ -11,10 +11,12 @@ add a chardet-config directory in the PATH environment variable.
 
 ```bash
 [user@host chardet]$ # if chardet-config is located in /opt/libchardet-1.0.5/bin
-[user@host chardet]$ PATH="$PATH:/opt/libchardet-1.0.5/bin" make build
+[user@host chardet]$ PATH="$PATH:/opt/libchardet-1.0.6/bin" make build
 [user@host chardet]$ # OR
-[user@host chardet]$ PATH="$PATH:/opt/libchardet-1.0.5/bin" python setup.py build
+[user@host chardet]$ PATH="$PATH:/opt/libchardet-1.0.6/bin" python setup.py build
 ```
+
+And libchardet 1.0.6 or after, UTF-8 and UTF-8-SIG can be distinguished. 
 
 ## Quick Install
 
