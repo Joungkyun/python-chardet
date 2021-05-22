@@ -219,7 +219,7 @@ static PyObject * Universal_feed (Universal * self, PyObject * args) {
 		self->confidence = obj->confidence;
 		if ( obj->confidence > 0 ) {
 			Universal_set_result (self, obj->encoding, obj->confidence, self->bom);
-			self->done = DETECTOR_FALSE;
+			self->done = DETECTOR_TRUE;
 			Py_RETURN_TRUE;
 		}
 	} else if ( strcmp (self->encoding, obj->encoding) == 0 ) {

@@ -3,6 +3,7 @@ Revision history for Python extension KRISP
 2.0.1
 	* Sun May 23 2021 JoungKyun.Kim <hostmaster@oops.org>
 	- fixed #3 Report utf-8-sig (depend on libchardet >= 1.0.6)
+	- fixed #6 detector.done can't check
 
 	* Sun Mar 18 2018 JoungKyun.Kim <hostmaster@oops.org>
 	- add python 3.x classifiers in setup.py
