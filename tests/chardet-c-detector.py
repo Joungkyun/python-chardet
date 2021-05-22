@@ -82,7 +82,8 @@ urls = [
 	'https://raw.githubusercontent.com/BYVoid/uchardet/master/test/zh/big5.txt',
 	'https://raw.githubusercontent.com/BYVoid/uchardet/master/test/zh/euc-tw.txt',
 	'https://raw.githubusercontent.com/BYVoid/uchardet/master/test/zh/gb18030.txt',
-	'https://raw.githubusercontent.com/BYVoid/uchardet/master/test/zh/utf-8.txt'
+	'https://raw.githubusercontent.com/BYVoid/uchardet/master/test/zh/utf-8.txt',
+	'./utf-8-bom.txt'
 ]
 
 print ("Python chardet c binding module version: %s" % (chardet_c.__version__))
@@ -92,9 +93,16 @@ for url in urls :
 	purl = os.path.basename (url)
 	print ("URL %-20s : " % purl, end=""),
 
+	if url.startswith ('https://') :
+		buf = urlread (url)
+	else :
+		f = open (url, 'r')
+		buf = f.read ()
+		f.close ()
+
 	try :
 		# det member => encoding(string), confidence(.2f)
-		det = chardet_c.detector (urlread (url), err)
+		det = chardet_c.detector (buf, err)
 		if ( det == None ) :
 			print ("Error: %s" % err)
 		print ("encoding: %-15s, confidence: %.2f" % (det.encoding, det.confidence))

@@ -52,6 +52,7 @@ static PyObject * py_destroy (PyObject * self, PyObject * args) { // {{{
 static PyObject * py_detect (PyObject * self, PyObject * args) { // {{{
 	PyObject *	err;
 	char *		text;
+	char *      buf;
 	size_t      inlen;
 	int			argc;
 
@@ -104,13 +105,29 @@ static PyObject * py_detect (PyObject * self, PyObject * args) { // {{{
 
 	dict = PyDict_New ();
 
-	prop = Py_BuildValue ("s", obj->encoding);
+	if ( strcmp (obj->encoding, "UTF-8") == 0 && obj->bom == 1 ) {
+		int buflen = sizeof (char) * (strlen (obj->encoding) + 5);
+		buf = malloc (buflen);
+		sprintf (buf, "%s-SIG", obj->encoding);
+		buf[buflen - 1] = 0;
+	} else {
+		buf = strdup (obj->encoding);
+	}
+
+	prop = Py_BuildValue ("s", buf);
 	PyDict_SetItemString (dict, "encoding", prop);
 	Py_DECREF (prop);
+	free (buf);
 
 	prop = Py_BuildValue ("f", obj->confidence);
 	PyDict_SetItemString (dict, "confidence", prop);
 	Py_DECREF (prop);
+
+#ifdef CHARDET_BOM_CHECK
+	prop = Py_BuildValue ("d", obj->bom);
+	PyDict_SetItemString (dict, "bom", prop);
+	Py_DECREF (prop);
+#endif
 
 	detect_obj_free (&obj);
 
@@ -130,6 +147,7 @@ static PyObject * py_detect (PyObject * self, PyObject * args) { // {{{
 static PyObject * py_detector (PyObject * self, PyObject * args) { // {{{
 	PyObject *	err;
 	char *		text;
+	char *		buf;
 	size_t		inlen;
 	int			argc;
 
@@ -179,13 +197,29 @@ static PyObject * py_detector (PyObject * self, PyObject * args) { // {{{
 
 	dict = PyDict_New ();
 
-	prop = Py_BuildValue ("s", obj->encoding);
+	if ( strcmp (obj->encoding, "UTF-8") == 0 && obj->bom == 1 ) {
+		int buflen = sizeof (char) * (strlen (obj->encoding) + 5);
+		buf = malloc (buflen);
+		sprintf (buf, "%s-SIG", obj->encoding);
+		buf[buflen - 1] = 0;
+	} else {
+		buf = strdup (obj->encoding);
+	}
+
+	prop = Py_BuildValue ("s", buf);
 	PyDict_SetItemString (dict, "encoding", prop);
 	Py_DECREF (prop);
+	free (buf);
 
 	prop = Py_BuildValue ("f", obj->confidence);
 	PyDict_SetItemString (dict, "confidence", prop);
 	Py_DECREF (prop);
+
+#ifdef CHARDET_BOM_CHECK
+	prop = Py_BuildValue ("d", obj->bom);
+	PyDict_SetItemString (dict, "bom", prop);
+	Py_DECREF (prop);
+#endif
 
 	detect_obj_free (&obj);
 

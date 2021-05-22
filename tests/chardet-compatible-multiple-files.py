@@ -76,7 +76,8 @@ urls = [
 	'https://raw.githubusercontent.com/BYVoid/uchardet/master/test/zh/big5.txt',
 	'https://raw.githubusercontent.com/BYVoid/uchardet/master/test/zh/euc-tw.txt',
 	'https://raw.githubusercontent.com/BYVoid/uchardet/master/test/zh/gb18030.txt',
-	'https://raw.githubusercontent.com/BYVoid/uchardet/master/test/zh/utf-8.txt'
+	'https://raw.githubusercontent.com/BYVoid/uchardet/master/test/zh/utf-8.txt',
+	'./utf-8-bom.txt'
 ]
 
 detector = UniversalDetector()
@@ -86,15 +87,28 @@ for url in urls :
 	print ("URL %-20s : " % purl, end=""),
 
 	try :
-		usock = urlopen(url)
+		if url.startswith ('https://') :
+			usock = urlopen(url)
 
-		detector.reset ();
-		for line in usock.readlines():
-			detector.feed(line)
-			if detector.done: break
+			detector.reset ();
+			for line in usock.readlines():
+				detector.feed(line)
+				if detector.done: break
+
+			usock.close()
+		else :
+			f = open (url, 'r')
+
+			detector.reset();
+			while True:
+				line = f.readline()
+				if not line : break
+				detector.feed(line)
+				if detector.done: break
+
+			f.close()
 
 		detector.close()
-		usock.close()
 
 		# det member => encoding(string), confidence(.2f)
 		print ("encoding: %-15s, confidence: %.2f" % (detector.result['encoding'], detector.result['confidence']))

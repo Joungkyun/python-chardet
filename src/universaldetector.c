@@ -52,21 +52,36 @@ typedef struct {
 	Detect   * ptr;
 	char       encoding[ENCODING_LENGTH];
 	float      confidence;
+	int        bom;
 } Universal;
 
-static void Universal_set_result (Universal * self, char * encoding, float confidence) {
+static void Universal_set_result (Universal * self, char * encoding, float confidence, int bom) {
 	PyObject * prop;
+	char     * buf;
 
 	if ( self->result == NULL )
 		self->result = PyDict_New ();
 	else
 		PyDict_Clear (self->result);
 
-	prop = Py_BuildValue ("s", encoding);
+	if ( strcmp (encoding, "UTF-8") == 0 && bom == 1 ) {
+		int buflen = sizeof (char) * (strlen (encoding) + 5);
+		buf = malloc (buflen);
+		sprintf (buf, "%s-SIG", encoding);
+		buf[buflen - 1] = 0;
+	} else {
+		buf = strdup (encoding);
+	}
+
+	prop = Py_BuildValue ("s", buf);
 	PyDict_SetItemString (self->result, "encoding", prop);
 	Py_DECREF (prop);
+	free (buf);
 	prop = Py_BuildValue ("f", confidence);
 	PyDict_SetItemString (self->result, "confidence", prop);
+	Py_DECREF (prop);
+	prop = Py_BuildValue ("d", bom);
+	PyDict_SetItemString (self->result, "bom", prop);
 	Py_DECREF (prop);
 }
 
@@ -103,6 +118,7 @@ static int Universal_init (Universal * self, PyObject *args, PyObject *kwds) {
 	self->done = DETECTOR_FALSE;
 	memset (self->encoding, 0, ENCODING_LENGTH);
 	self->confidence = 0.0;
+	self->bom = 0;
 
 	if ( (self->result = PyDict_New ()) == NULL ) {
 		detect_destroy (&self->ptr);
@@ -122,6 +138,11 @@ static int Universal_init (Universal * self, PyObject *args, PyObject *kwds) {
 	prop = Py_BuildValue ("f", 0.0);
 	PyDict_SetItemString (self->result, "confidence", prop);
 	Py_DECREF (prop);
+#ifdef CHARDET_BOM_CHECK
+	prop = Py_BuildValue ("d", 0);
+	PyDict_SetItemString (self->result, "bom", prop);
+	Py_DECREF (prop);
+#endif
 
 	return 0;
 }
@@ -138,8 +159,9 @@ static PyObject * Universal_reset (Universal * self) {
 	self->done = DETECTOR_FALSE;
 	memset (self->encoding, 0, ENCODING_LENGTH);
 	self->confidence = 0.0;
+	self->bom = 0;
 
-	Universal_set_result (self, "None", 0.0);
+	Universal_set_result (self, "None", 0.0, 0);
 
 	if ( self->ptr != NULL )
 		Py_RETURN_TRUE;
@@ -188,12 +210,15 @@ static PyObject * Universal_feed (Universal * self, PyObject * args) {
 	if ( obj->confidence < 0.1 )
 		Py_RETURN_FALSE;
 
+#ifdef CHARDET_BOM_CHECK
+	self->bom = obj->bom;
+#endif
+
 	if ( strlen (self->encoding) < 1 ) {
 		SAFE_STRCPY (self->encoding, obj->encoding, strlen (obj->encoding));
 		self->confidence = obj->confidence;
-
 		if ( obj->confidence > 0 ) {
-			Universal_set_result (self, obj->encoding, obj->confidence);
+			Universal_set_result (self, obj->encoding, obj->confidence, self->bom);
 			self->done = DETECTOR_FALSE;
 			Py_RETURN_TRUE;
 		}
@@ -221,7 +246,7 @@ static PyObject * Universal_feed (Universal * self, PyObject * args) {
 
 	if ( strcmp (self->encoding, "ASCII") != 0 && self->confidence > 0.9 ) {
 		self->done = DETECTOR_TRUE;
-		Universal_set_result (self, self->encoding, self->confidence);
+		Universal_set_result (self, self->encoding, self->confidence, self->bom);
 	} else
 		self->done = DETECTOR_FALSE;
 

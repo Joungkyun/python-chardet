@@ -43,7 +43,7 @@ setup (
 		description  = 'python binding for libchardet API',
 		long_description=readme(),
 		author       = 'JoungKyun.Kim',
-		author_email = 'admin@oops.org',
+		author_email = 'joungkyun@daum.net',
 		url          = 'http://oops.org',
 		license      = 'MPL 1.1',
 		platforms    = 'x86/x86_64',
