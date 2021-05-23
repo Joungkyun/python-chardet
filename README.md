@@ -36,7 +36,7 @@ This module is a c-binding, is much faster than the [python-chardet](https://pyp
 - different with 3.x
   - don't support language key in chardet.universaldetector.UniversalDetector.feed API
 - different with 4.x
-  - don't support chatdet.deteact_all
+  - chardet.detect_all api is provided for compatibility with the traditional chardet of PYPI. In fact, it is the same as the result of chardet.detect api.
   - don't support language key in chardet.universaldetector.UniversalDetector.feed API
 
 

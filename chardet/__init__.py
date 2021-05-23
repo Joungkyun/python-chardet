@@ -20,6 +20,10 @@ __version__ = _chardet.__version__
 def detect(aBuf) :
 	return _chardet.detect (aBuf)
 
+def detect_all(aBuf) :
+	r = _chardet.detect (aBuf);
+	return [r]
+
 #
 # Local variables:
 # tab-width: 4

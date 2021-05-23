@@ -57,14 +57,19 @@ print ()
 
 print ("Python chardet c binding module version: %s" % (chardet.__version__))
 print ()
-url = r'https://raw.githubusercontent.com/BYVoid/uchardet/master/test/ar/windows-1256.txt'
-#url = r'https://raw.githubusercontent.com/Joungkyun/python-chardet/master/tests/utf-8-bom.txt'
-print ('** %s => ' % os.path.basename (url), end='')
+urls = [
+	r'https://raw.githubusercontent.com/BYVoid/uchardet/master/test/ar/windows-1256.txt',
+	r'https://raw.githubusercontent.com/Joungkyun/python-chardet/master/tests/utf-8-bom.txt'
+]
 
 try :
-	rawdata = urlopen (url).read ()
-	r = chardet.detect (rawdata)
-	print (r)
+	for url in urls :
+		print ('** %-17s => ' % os.path.basename (url), end='')
+		rawdata = urlopen (url).read ()
+		r = chardet.detect (rawdata)
+		print (r)
+		r = chardet.detect_all (rawdata)
+		print (r)
 except HTTPError as e :
 	print (e)
 
