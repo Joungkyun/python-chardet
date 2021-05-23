@@ -18,23 +18,30 @@ defs   = []
 
 major_version = sys.version[0]
 
-chardet_env = (os.popen ('chardet-config --libs')).read ()
-envlist   = chardet_env.split ()
+try:
+	import pkgconfig
 
-for arg in envlist :
-	if arg[1] == 'L' :
-		libdir.append (arg[2:])
+	pkg = pkgconfig.parse ('chardet')
+	libdir += pkg['library_dirs']
+	incdir += pkg['include_dirs']
+except ImportError:
+	chardet_env = (os.popen ('chardet-config --libs')).read ()
+	envlist   = chardet_env.split ()
 
-del envlist
+	for arg in envlist :
+		if arg[1] == 'L' :
+			libdir.append (arg[2:])
 
-chardet_defs = (os.popen ('chardet-config --defs')).read ()
-envlist    = chardet_defs.split ()
+	del envlist
 
-for arg in envlist :
-	if arg[1] == 'I' :
-		incdir.append (arg[2:])
+	chardet_defs = (os.popen ('chardet-config --defs')).read ()
+	envlist    = chardet_defs.split ()
 
-del envlist
+	for arg in envlist :
+		if arg[1] == 'I' :
+			incdir.append (arg[2:])
+
+	del envlist
 
 
 setup (
