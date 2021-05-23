@@ -58,7 +58,7 @@ setup (
 		ext_modules  = [
 			Extension (
 						'chardet._chardet',
-						[ 'src/chardet.c' ],
+						[ 'src/chardet.c', 'src/common.c' ],
 						include_dirs  = incdir,
 						library_dirs  = libdir,
 						libraries     = libs,
@@ -66,7 +66,7 @@ setup (
 					),
 			Extension (
 						'chardet.universaldetector',
-						[ 'src/universaldetector.c' ],
+						[ 'src/universaldetector.c', 'src/common.c' ],
 						include_dirs  = incdir,
 						library_dirs  = libdir,
 						libraries     = libs,
@@ -74,7 +74,7 @@ setup (
 					),
 			Extension (
 						'chardet_c',
-						[ 'src/chardet_c.c' ],
+						[ 'src/chardet_c.c', 'src/common.c' ],
 						include_dirs  = incdir,
 						library_dirs  = libdir,
 						libraries     = libs,

@@ -58,6 +58,7 @@ print ()
 print ("Python chardet c binding module version: %s" % (chardet.__version__))
 print ()
 url = r'https://raw.githubusercontent.com/BYVoid/uchardet/master/test/ar/windows-1256.txt'
+#url = r'https://raw.githubusercontent.com/Joungkyun/python-chardet/master/tests/utf-8-bom.txt'
 print ('** %s => ' % os.path.basename (url), end='')
 
 try :

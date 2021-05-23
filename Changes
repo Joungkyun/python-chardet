@@ -2,7 +2,7 @@ Revision history for Python extension CHARDET
 
 2.0.1
 	* Sun May 23 2021 JoungKyun.Kim <hostmaster@oops.org>
-	- fixed #3 Report utf-8-sig (depend on libchardet >= 1.0.6)
+	- fixed #3 Report utf-8-sig
 	- fixed #4 Compatibility with traditional chardet
 	- fixed #6 detector.done can't check
 

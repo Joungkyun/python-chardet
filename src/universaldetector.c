@@ -42,6 +42,8 @@
 		} while (0)
 #endif
 
+int legacy_bom (char **);
+
 typedef struct {
 	PyObject_HEAD
 
@@ -80,7 +82,7 @@ static void Universal_set_result (Universal * self, char * encoding, float confi
 	prop = Py_BuildValue ("f", confidence);
 	PyDict_SetItemString (self->result, "confidence", prop);
 	Py_DECREF (prop);
-	prop = Py_BuildValue ("d", bom);
+	prop = Py_BuildValue ("i", bom);
 	PyDict_SetItemString (self->result, "bom", prop);
 	Py_DECREF (prop);
 }
@@ -138,11 +140,9 @@ static int Universal_init (Universal * self, PyObject *args, PyObject *kwds) {
 	prop = Py_BuildValue ("f", 0.0);
 	PyDict_SetItemString (self->result, "confidence", prop);
 	Py_DECREF (prop);
-#ifdef CHARDET_BOM_CHECK
-	prop = Py_BuildValue ("d", 0);
+	prop = Py_BuildValue ("i", 0);
 	PyDict_SetItemString (self->result, "bom", prop);
 	Py_DECREF (prop);
-#endif
 
 	return 0;
 }
@@ -212,6 +212,8 @@ static PyObject * Universal_feed (Universal * self, PyObject * args) {
 
 #ifdef CHARDET_BOM_CHECK
 	self->bom = obj->bom;
+#else
+	self->bom = legacy_bom (&text);
 #endif
 
 	if ( strlen (self->encoding) < 1 ) {

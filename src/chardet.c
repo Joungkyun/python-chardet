@@ -30,6 +30,7 @@
 #endif
 
 static PyObject * ErrorObject;
+int legacy_bom (char **);
 
 static PyObject * py_detect (PyObject * self, PyObject * args) { // {{{
 	PyObject        * err = NULL;
@@ -37,6 +38,7 @@ static PyObject * py_detect (PyObject * self, PyObject * args) { // {{{
 	char            * buf;
 	size_t            inlen;
 	int               argc;
+	int               bom;
 
 	DetectObj       * obj;
 	PyObject        * dict;
@@ -78,9 +80,15 @@ static PyObject * py_detect (PyObject * self, PyObject * args) { // {{{
 		return Py_None;
 	}
 
+#ifdef CHARDET_BOM_CHECK
+	bom = (int) obj->bom;
+#else
+	bom = legacy_bom (&text);
+#endif
+
 	dict = PyDict_New ();
 
-	if ( strcmp (obj->encoding, "UTF-8") == 0 && obj->bom == 1 ) {
+	if ( strcmp (obj->encoding, "UTF-8") == 0 && bom == 1 ) {
 		int buflen = sizeof (char) * (strlen (obj->encoding) + 5);
 		buf = malloc (buflen);
 		sprintf (buf, "%s-SIG", obj->encoding);
@@ -98,11 +106,9 @@ static PyObject * py_detect (PyObject * self, PyObject * args) { // {{{
 	PyDict_SetItemString (dict, "confidence", prop);
 	Py_DECREF (prop);
 
-#ifdef CHARDET_BOM_CHECK
-	prop = Py_BuildValue ("d", obj->bom);
+	prop = Py_BuildValue ("i", bom);
 	PyDict_SetItemString (dict, "bom", prop);
 	Py_DECREF (prop);
-#endif
 
 	detect_obj_free (&obj);
 

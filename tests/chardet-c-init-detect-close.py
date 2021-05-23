@@ -106,7 +106,7 @@ for url in urls :
 		det = chardet_c.detect (ch, buf, err)
 		if ( det == None ) :
 			print ("Error: %s" % err)
-		print ("encoding: %-15s, confidence: %.2f" % (det.encoding, det.confidence))
+		print ("encoding: %-15s, bom: %d, confidence: %.2f" % (det.encoding, det.bom, det.confidence))
 	except HTTPError as e :
 		print (e)
 

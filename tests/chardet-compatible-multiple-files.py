@@ -111,7 +111,7 @@ for url in urls :
 		detector.close()
 
 		# det member => encoding(string), confidence(.2f)
-		print ("encoding: %-15s, confidence: %.2f" % (detector.result['encoding'], detector.result['confidence']))
+		print ("encoding: %-15s, bom: %d, confidence: %.2f" % (detector.result['encoding'], detector.result['bom'], detector.result['confidence']))
 	except HTTPError as e :
 		print (e)
 
